@@ -4,7 +4,7 @@
 
 // Static variable - can be accessed anywhere inside a file
 
-// Statuc function - can be accessed ONLY from file containing it
+// Static function - can be accessed ONLY from file containing it
 
 static int counter();
 
