@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Dynamin alocation - helps stoding data without knowing the size of it
+// Dynamin alocation - helps storing data without knowing the size of it
 // Allocated memory can be accessed by pointer showing memory location
 
 typedef struct{
