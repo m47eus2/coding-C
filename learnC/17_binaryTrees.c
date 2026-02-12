@@ -15,45 +15,96 @@ typedef struct node{
     struct node *right;
 }node_t;
 
-void insert(node_t *head, int val);
+void insert(node_t **head, int val);
+void insertRec(node_t **head, int val);
 
 int main(){
     // Creating handler
     node_t *head = NULL;
-    // Creating first node
-    head = malloc(sizeof(node_t));
-    head->val=10;
-    head->left=NULL;
-    head->right=NULL;
+    
+    insert(&head, 10);
+    insert(&head, 5);
+    insertRec(&head, 3);
+    insertRec(&head, 15);
+
+    printf(" %d \n", head->val);
+    printf(" %d %d \n", head->left->val, head->right->val);
+    printf(" %d \n", head->left->left->val);
 
     return 0;
 }
 
-void insert(node_t *head, int val){
-    // Creating new node
-    node_t *newNode = malloc(sizeof(node_t));
-    newNode->val = val;
-    newNode->left = NULL;
-    newNode->right = NULL;
-
+void insert(node_t **head, int val){
     // Empty tree
-    if(head == NULL){
-        head = newNode;
+    if(*head == NULL){
+        // Creating new node
+        node_t *newNode = malloc(sizeof(node_t));
+        newNode->val = val;
+        newNode->left = NULL;
+        newNode->right = NULL;
+        *head = newNode;
         return;
     }
     
     // Not empty tree
-    node_t *current = head;
-    while(1){
+    node_t *current = *head;
+    while(current != NULL){
         // Value smaller than node value
         if(val < current->val){
-            if(current->left == NULL){current->left = newNode;}
+            if(current->left == NULL){
+                // Creating new node
+                node_t *newNode = malloc(sizeof(node_t));
+                newNode->val = val;
+                newNode->left = NULL;
+                newNode->right = NULL;
+                current->left = newNode;
+                return;
+            }
             else{
                 current = current->left;
                 continue;
             }
         }
         //Value bigger than node value
-        
+        else if(val > current->val){
+            if(current->right == NULL){
+                // Creating new node
+                node_t *newNode = malloc(sizeof(node_t));
+                newNode->val = val;
+                newNode->left = NULL;
+                newNode->right = NULL;
+                current->right = newNode;
+                return;
+            }
+            else{
+                current = current->right;
+                continue;
+            }
+        }
+        else{return;}
     }
+}
+
+void insertRec(node_t **head, int val){
+    // Empty tree
+    if(*head == NULL){
+        // New node 
+        node_t *newNode = malloc(sizeof(node_t));
+        newNode->val = val;
+        newNode->left = NULL;
+        newNode->right = NULL;
+        *head = newNode;
+        return;
+    }
+    
+    // Not empty tree
+    // Value smaller than current node
+    node_t *current = *head;
+    if(val < current->val){
+        insertRec(&(current->left), val);
+    }
+    else if(val > current->val){
+        insertRec(&(current->right), val);
+    }
+    else if(val == current->val){return;}
 }
