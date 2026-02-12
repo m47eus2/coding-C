@@ -3,7 +3,7 @@
 
 // Linked list  - array that can gets bigger or smaller from any point
 // Items can be added or removed from any point in the list, no need to define size
-// To reach n item there is need to iterating from beggining of the array
+// To reach n item there is need of iterating from beggining of the array
 // Less efficient, each item must store value and pointer
 
 // Linked list is made with nodes - each node contains value and pointer to the next node
@@ -22,7 +22,8 @@ void append(node_t *head, int val);
 void push(node_t **head, int val);
 int pop(node_t **head);
 int removeLast(node_t **head);
-int removeByIndex(node_t **head);
+int removeByIndex(node_t **head, int idx);
+void removeByValue(node_t **head, int val);
 
 int main(){
     // Creating list handler witch is pointer to the first node 
@@ -72,6 +73,32 @@ int main(){
     // Removing lat
     removeLast(&head);
     removeLast(&head);
+
+    //Printing list
+    printList(head);
+    printf("\n");
+
+    // Appending some values
+    push(&head, 2);
+    push(&head, 1);
+    append(head, 4);
+    append(head, 5);
+    append(head, 6);
+    append(head, 7);
+
+    // Printing list
+    printList(head);
+    printf("\n");
+
+    // Removing item by index
+    removeByIndex(&head, 3);
+
+    //Printing list
+    printList(head);
+    printf("\n");
+
+    // Removing item by value
+    removeByValue(&head, 5);
 
     //Printing list
     printList(head);
@@ -136,6 +163,50 @@ int removeLast(node_t **head){
     return ret;
 }
 
-int removeByIndex(node_t **head){
-    
+int removeByIndex(node_t **head, int idx){
+    if(idx < 0){return 0;}
+    node_t *current = *head;
+    // Empty list
+    if(current == NULL){return 0;}
+    // Index 0 - popping
+    if(idx == 0){
+        int ret = current->val;
+        node_t *next = current->next;
+        free(current);
+        *head = next;
+        return ret;
+    }
+    //Other
+    for(int i=0; i<idx-1; i++){
+        if(current->next == NULL){return 0;}
+        current = current->next;
+    }
+    if(current->next == NULL){return 0;}
+    int ret = current->next->val;
+    node_t* toConnect = current->next->next;
+    free(current->next);
+    current->next = toConnect;
+    return ret;
+}
+
+void removeByValue(node_t **head, int val){
+    node_t *current = *head;
+    if(current == NULL){
+        return;
+    }
+    if(current->val == val){
+        node_t *next = current->next;
+        free(current);
+        *head = next;
+        return;
+    }
+    while(current->next != NULL){
+        if(current->next->val == val){
+            node_t *next = current->next->next;
+            free(current->next);
+            current->next = next;
+            return;
+        }
+        current = current->next;
+    }
 }
