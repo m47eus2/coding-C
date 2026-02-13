@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdint.h>
 
+// Library for debugging - <assert.h>
+// assert(condition) -> condition must be true, otherwise program ends with error
+
 void printBits(uint8_t bits){
     for(int i=7; i>=0; i--){
         printf("%d",(bits >> i) & 1);
