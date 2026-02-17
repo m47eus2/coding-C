@@ -15,9 +15,11 @@ int main(void){
     step = 20;
     fahr = lower;
 
+    printf("Fahr\tCels\n");
+    printf("------------\n");
     while(fahr <= upper){
         cels = 5 * (fahr-32) / 9; // Obcięcie części ułamkowej wyniku
-        printf("%d\t%d\n",fahr,cels);
+        printf("%3d%6d\n",fahr,cels);
         fahr = fahr + 20;
     }
 
