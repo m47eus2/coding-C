@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Definicje nazw symbolicznych
+// Definicje stałych symbolicznych
 // Zastąpienie każdego wystąpienia LOWER ciągiem 0
 #define LOWER 0
 #define UPPER 300
