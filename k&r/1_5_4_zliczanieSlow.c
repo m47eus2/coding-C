@@ -18,7 +18,7 @@ int main(void){
         nc++;
         if(c == '\n')
             nl++;
-        if(c == ' ' || c == '\n' || c == '\t') // 
+        if(c == ' ' || c == '\n' || c == '\t') // Wyrażenia logiczne wykonywane od lewej do prawej, zatrzymywane natychmiast po ustaleniu wartości
             state = OUT;
         else if(state == OUT){
             state = IN;
