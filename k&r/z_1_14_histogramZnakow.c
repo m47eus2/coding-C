@@ -4,19 +4,25 @@
 
 int main(void){
     int c, i, j;
-    int hist[52];
+    int hist[256];
 
-    for(i=0; i<52; i++)
+    for(i=0; i<256; i++)
         hist[i] = 0;
 
     while((c = getchar()) != EOF){
-        if(c >= 'A' && c <= 'z')
-            hist[c - 'A']++;
+        if(c >= 0 && c <= 255)
+            hist[c]++;
     }
 
-    for(i=0; i<52; i++){
+    for(i=0; i<255; i++){
         if(hist[i] > 0){
-            printf("%c [", i+'A');
+            if(i == '\n')
+                printf("\\n [");
+            else if(i == '\t')
+                printf("\\t [");
+            else
+                printf("%c  [", i);
+
             for(j=0; j<hist[i]; j++)
                 printf("=");
             printf("]\n");
