@@ -40,7 +40,7 @@ int main(void){
         }
 
         // Logging chars
-        if(inString == 0){
+        if(inString == 0 && ignoreChar == 0){
             if(c == '(') bOpen++;
             else if(c == ')') bClose++;
             else if(c == '[') b1Open++;
@@ -62,7 +62,7 @@ int main(void){
         ignoreChar = 0;
     }
 
-    printf("Results:\n");
+    printf("\nResults:\n");
 
     printf("Circle brackets opened: %d, closed: %d [", bOpen, bClose);
     if(bOpen == bClose) printf("PASSED]\n");
@@ -75,6 +75,8 @@ int main(void){
     printf("Strange brackets opened: %d, closed: %d [", b2Open, b2Close);
     if(b2Open == b2Close) printf("PASSED]\n");
     else printf("FAILED]\n");
+
+    printf("%d, %d\n", br, doubleBr);
 
     return 0;
 }
