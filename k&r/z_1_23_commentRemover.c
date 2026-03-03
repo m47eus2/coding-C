@@ -12,13 +12,14 @@ Comment
 */
 
 int main(void){
-    int c, afterSlash, afterStar, inComment, ignoreLine;
+    int c, afterSlash, afterStar, inComment, ignoreLine, ignoreChar;
 
-    afterSlash = afterStar = inComment = ignoreLine = FALSE;
+    afterSlash = afterStar = inComment = ignoreLine = ignoreChar = FALSE;
 
     while((c = getchar()) != EOF){
-
+        // Single line comment entrace
         if(c == '/'){
+            ignoreChar = TRUE;
             if(afterSlash == FALSE)
                 afterSlash = TRUE;
             else{
@@ -26,18 +27,28 @@ int main(void){
                 ignoreLine = TRUE;
             }
         }
+        else{
+            if(afterSlash == TRUE && c != '*')
+                putchar('/');
+            afterSlash = FALSE;
+        }
+
+        // Multi line comment entrance
         if(afterSlash == TRUE && c == '*'){
             afterSlash = FALSE;
+            ignoreChar = TRUE;
             inComment = TRUE;
         }
 
-        if(c == '\n')
+        // Single line comment exit
+        if(c == '\n' && ignoreLine == TRUE)
             ignoreLine = FALSE; 
-
-        if(ignoreLine == 0 && inComment == 0)
+        
+        // Output char
+        if(ignoreLine == 0 && inComment == 0 && ignoreChar == 0)
             putchar(c);
 
-       
+        // Multi line comment exit
         if(inComment == TRUE){
             if(c == '*')
                 afterStar = TRUE;
@@ -46,6 +57,7 @@ int main(void){
                 inComment = FALSE;
             }
         }
+        ignoreChar = FALSE;
     }
     return 0;
 }
