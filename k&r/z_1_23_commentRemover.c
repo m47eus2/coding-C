@@ -12,32 +12,45 @@ Comment
 */
 
 int main(void){
-    int c, afterSlash, afterStar, inComment, ignoreLine, ignoreChar;
+    printf("Hello //To nie komentarz /*To też nie komentarz*/ world!\n");
 
-    afterSlash = afterStar = inComment = ignoreLine = ignoreChar = FALSE;
+    int c, afterSlash, afterStar, inComment, ignoreLine, ignoreChar, inString, prevBackSlash;
+
+    afterSlash = afterStar = inComment = ignoreLine = ignoreChar = inString = prevBackSlash = FALSE;
 
     while((c = getchar()) != EOF){
-        // Single line comment entrace
-        if(c == '/'){
-            ignoreChar = TRUE;
-            if(afterSlash == FALSE)
-                afterSlash = TRUE;
-            else{
-                afterSlash = FALSE;
-                ignoreLine = TRUE;
-            }
-        }
-        else{
-            if(afterSlash == TRUE && c != '*')
-                putchar('/');
-            afterSlash = FALSE;
+        if(c == '\"' && prevBackSlash == FALSE){
+            if(inString)
+                inString = FALSE;
+            else
+                inString = TRUE;
         }
 
-        // Multi line comment entrance
-        if(afterSlash == TRUE && c == '*'){
+        if(c == '\\')
+            prevBackSlash = TRUE;
+        else
+            prevBackSlash = FALSE;
+
+        // Comments entrance
+        if(afterSlash == TRUE){
+            if(c == '/')
+                ignoreLine = TRUE;
+            else if(c == '*')
+                inComment = TRUE;
+        }
+
+        // Setting afterSlash
+        if(c == '/'){
+            if(inString == FALSE)
+                ignoreChar = TRUE;
+            if(afterStar == 0 && inString == 0) // When slash ends multiline comment it doesnt trigger potential comment start
+                afterSlash = TRUE;
+        }
+        else{
+            // Inserting / when it is not starting comment
+            if(afterSlash == 1 && ignoreLine == 0 && inComment == 0)
+                putchar('/');
             afterSlash = FALSE;
-            ignoreChar = TRUE;
-            inComment = TRUE;
         }
 
         // Single line comment exit
